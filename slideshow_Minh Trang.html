@@ -1,0 +1,143 @@
+<html>
+<head>
+	<title>Demo Jquery Slide Show</title>
+	<meta charset='UTF-8'>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<style type="text/css">
+	img{
+		vertical-align: middle;
+		width: 900px;
+		height: 500px;
+		position: absolute;
+		top: 0;
+		opacity:0;
+	}
+	.slideshow-container{
+		max-width: 900px;
+		position: relative;
+		margin: auto;
+		margin-top: 30px;
+	}
+
+	.demoslide{
+		height:500px;
+		position: relative;
+		width: 900px;
+	}
+	.dot {
+		height: 15px;
+		width: 15px;
+		margin: 0 ;
+		background-color: #bbb;
+		border-radius: 50%;
+		display: inline-block;
+	}
+	.active {
+		background-color: yellow;
+	}
+	
+	.image:first-child{
+		opacity:1;
+	}
+
+	.button ul .focus{
+		background:yellow;
+	}
+
+	.dot:hover{
+		background:blue;
+	}
+	</style>
+</head>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var current = 0;
+		var option=0;
+		var n = $(".image").length;
+		$('.dot:first-child').addClass("active");
+
+	function run(){
+		$(".dot").removeClass("active");								
+		$(".dot:eq(" + option + ")").addClass("active");				
+		$(".image").stop().animate({opacity:0});						
+		$(".image:eq(" + option + ")").stop().animate({opacity:1}, 2000);	
+	}
+	 
+	function hoanvi(){
+		if(option==n-1){
+				option=-1;
+			}
+		option++;
+		run();
+	}
+
+	function tudong(){
+		tgian=2000;
+		chay= setInterval(hoanvi,tgian);
+	}
+
+	$(".slideshow-container").hover(function(){
+		clearInterval(chay);
+	},function(){
+		tudong();
+	});
+
+
+	tudong();
+	$('.dot').click(function(){
+		$(".image").stop();
+		$('.dot').removeClass("active");
+		var dem = $(this).index();
+		$(this).addClass("active");
+		console.log($(this));
+		$(".image").stop().animate({opacity:0});
+		$(".image").eq(dem - 1).animate({opacity:1},2000);
+		
+	});
+	$('#next').click(function(){
+		$('.dot').removeClass("active");
+		var dem = $(".dot:eq(" + option + ")").index();
+		$('.dot').eq(dem).addClass("active");
+		$('#prev').css('background-color', '#c2c2a3');
+		$(".image").animate({opacity:0});
+		$(".image").eq(dem).animate({opacity:1}, 2000);
+	});	
+
+	$('#prev').click(function(){
+		$('.dot').removeClass("active");
+		var dem = $(".dot:eq(" + option + ")").index();
+		$('#prev').css('background-color', '#c2c2a3');
+		$('.dot').eq(dem - 2).addClass("active");
+		$(".image").stop().animate({opacity:0});
+		$(".image").eq(dem - 2).animate({opacity:1}, 2000);
+	});
+
+
+});	
+</script>
+<body>
+	<div class="slideshow-container">
+		<div class="demoslide">
+			<img class="image" src="image/natural.png">
+			<img class="image" src="image/natural1.png">
+			<img class="image" src="image/natural2.png">
+			<img class="image" src="image/natural3.png">
+			<img class="image" src="image/natural4.png">
+			<img class="image" src="image/natural5.png">
+		</div>
+
+		<div style="text-align:center" class="button"> 
+			<button id="prev" ">&#10094;</button>
+		    <span class="dot"></span>
+		    <span class="dot"></span>
+		    <span class="dot"></span>
+		    <span class="dot"></span>
+		    <span class="dot"></span>
+		    <span class="dot"></span> 
+		    <button id="next" ">&#10095;</button> 
+		</div>
+  		<div>
+  		</div>
+	</div>
+</body>
+</html>
